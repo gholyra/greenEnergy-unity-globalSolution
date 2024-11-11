@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Collectable : MonoBehaviour
@@ -7,6 +8,13 @@ public class Collectable : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Destroy(this.gameObject);
+            OnCollected();
         }
+    }
+
+    public void OnCollected()
+    {
+        GameManager.Instance.AddItemsCollected();
+        UIManager.Instance.AddCollectableToTab(this.gameObject);
     }
 }
