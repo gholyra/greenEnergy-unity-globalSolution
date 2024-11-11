@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        HandleCollectablesTab();
         HandleWalk();
     }
 
@@ -31,5 +32,20 @@ public class PlayerController : MonoBehaviour
         moveDirection.y = inputValue.y;
         
         rigidBody.velocity = new Vector2(moveDirection.x * velocity, moveDirection.y * velocity);
+    }
+
+    private void HandleCollectablesTab()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (UIManager.Instance.GetCollectablesTabState())
+            {
+                UIManager.Instance.SetCollectablesTabState(false);
+            }
+            else
+            {
+                UIManager.Instance.SetCollectablesTabState(true);
+            }
+        }
     }
 }
