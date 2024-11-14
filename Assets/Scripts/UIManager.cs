@@ -34,13 +34,13 @@ public class UIManager : MonoBehaviour
         {
             collectablesTabActive = true;
             collectablesTabAnimator.SetBool("IsActive", true);
-            InputManager.Instance.DisableGameControls();
+            InputManager.Instance.DisableCharacterControls();
         }
         else
         {
             collectablesTabActive = false;
             collectablesTabAnimator.SetBool("IsActive", false);
-            InputManager.Instance.EnableGameControls();
+            InputManager.Instance.EnableCharacterControls();
         }
     }
 

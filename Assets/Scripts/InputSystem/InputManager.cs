@@ -25,14 +25,24 @@ public class InputManager : MonoBehaviour
         return inputVector.normalized;
     }
 
-    public void EnableGameControls()
+    public void EnableCharacterControls()
     {
         gameControls.Enable();
     }
     
-    public void DisableGameControls()
+    public void DisableCharacterControls()
     {
         gameControls.Disable();
     }
-    
+
+    public void EnableCameraControls()
+    {
+        gameControls.Enable();
+    }
+
+    public void DisableCameraControls()
+    {
+        gameControls.Disable();
+    }
+
 }

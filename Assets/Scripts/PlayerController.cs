@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+
+        }
         HandleCollectablesTab();
         HandleWalk();
     }
