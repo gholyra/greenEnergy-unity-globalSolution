@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleWalk()
     {
-        Vector2 inputValue = InputManager.Instance.GetMovementVectorNormalized();
+        Vector2 inputValue = InputManager.Instance.GetCharacterMovementVectorNormalized();
         
         moveDirection.x = inputValue.x;
         moveDirection.y = inputValue.y;

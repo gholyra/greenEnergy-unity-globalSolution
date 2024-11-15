@@ -14,35 +14,45 @@ public class InputManager : MonoBehaviour
         }
         gameControls = new GameControls();
         gameControls.Player.Enable();
+        gameControls.Camera.Enable();
     }
 
-    public Vector2 GetMovementVectorNormalized()
+    public Vector2 GetCharacterMovementVectorNormalized()
     {
         Vector2 inputVector;
         
         inputVector = gameControls.Player.Walk.ReadValue<Vector2>();
         
         return inputVector.normalized;
+    }    
+    
+    public Vector2 GetCameraMovementVectorNormalized()
+    {
+        Vector2 inputVector;
+        
+        inputVector = gameControls.Camera.Move.ReadValue<Vector2>();
+        
+        return inputVector.normalized;
     }
 
     public void EnableCharacterControls()
     {
-        gameControls.Enable();
+        gameControls.Player.Enable();
     }
     
     public void DisableCharacterControls()
     {
-        gameControls.Disable();
+        gameControls.Player.Disable();
     }
 
     public void EnableCameraControls()
     {
-        gameControls.Enable();
+        gameControls.Camera.Enable();
     }
 
     public void DisableCameraControls()
     {
-        gameControls.Disable();
+        gameControls.Camera.Disable();
     }
 
 }
