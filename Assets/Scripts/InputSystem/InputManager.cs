@@ -4,7 +4,7 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
 
-    private GameControls gameControls;
+    public GameControls gameControls { get; private set; }
     
     private void Awake()
     {
@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
         }
         gameControls = new GameControls();
         gameControls.Player.Enable();
-        gameControls.Camera.Enable();
+        gameControls.Camera.Disable();
     }
 
     public Vector2 GetCharacterMovementVectorNormalized()

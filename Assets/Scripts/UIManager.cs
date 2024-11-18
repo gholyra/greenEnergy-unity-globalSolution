@@ -5,6 +5,9 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
+
+    [Header("Camera Components")] 
+    [SerializeField] private GameObject cameraInterface;
     
     [Header("Collectables Tab Component")]
     [SerializeField] private GameObject collectablesTab;
@@ -21,11 +24,20 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
+        SetCameraInterfaceState(false);
     }
 
+    #region Getters
     public bool GetCollectablesTabState()
     {
         return collectablesTabActive;
+    }
+    #endregion
+    
+    #region Setters
+    public void SetCameraInterfaceState(bool isActive) 
+    {
+        cameraInterface.SetActive(isActive);
     }
     
     public void SetCollectablesTabState(bool state)
@@ -43,7 +55,17 @@ public class UIManager : MonoBehaviour
             InputManager.Instance.EnableCharacterControls();
         }
     }
+    #endregion
 
+    public void SwitchCameraInterface(bool pictureTaken)
+    {
+        if (pictureTaken)
+        {
+            cameraInterface.GetComponent<Animator>().enabled = false;
+            cameraInterface.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/UI/Camera ACERTO");
+        }
+    }
+    
     public void AddCollectableToTab(GameObject collectable)
     {
         for (int i = 0; i < collectableItems.Length; i++)

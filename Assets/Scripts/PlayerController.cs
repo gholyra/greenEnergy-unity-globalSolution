@@ -4,7 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
     
-    [SerializeField] private float velocity;
+    [SerializeField] private float velocity = 3f;
 
     private Rigidbody2D rigidBody;
     private Vector2 moveDirection;
@@ -22,12 +22,39 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-
+            if (InputManager.Instance.gameControls.Player.enabled)
+            {
+                InputManager.Instance.DisableCharacterControls();
+                UIManager.Instance.SetCameraInterfaceState(true);
+                InputManager.Instance.EnableCameraControls();
+            }
+            else
+            {
+                InputManager.Instance.DisableCameraControls();
+                UIManager.Instance.SetCameraInterfaceState(false);
+                InputManager.Instance.EnableCharacterControls();
+            }
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (InputManager.Instance.gameControls.Camera.enabled)
+            {
+                if (EnergyLocationBehaviour.Instance.isInCameraView)
+                {
+                    Debug.Log("Foto Tirada!!");
+                    UIManager.Instance.SwitchCameraInterface(true);
+                }
+                else
+                {
+                    Debug.Log("O objeto não está totalmente enquadrado dentro da câmera :(");
+                }
+            }
         }
         HandleCollectablesTab();
         HandleWalk();
     }
 
+    #region Handlers
     private void HandleWalk()
     {
         Vector2 inputValue = InputManager.Instance.GetCharacterMovementVectorNormalized();
@@ -52,4 +79,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    #endregion
+
 }

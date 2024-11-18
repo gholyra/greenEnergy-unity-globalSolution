@@ -2,20 +2,47 @@ using UnityEngine;
 
 public class CameraBehaviour : MonoBehaviour
 {
+    [SerializeField] private float velocity = 3f;
+    
+    private Camera cameraComponent;
     private Transform cameraTransform;
     private Vector3 playerPosition;
 
+    private Rigidbody2D rigidBody;
+    private Vector2 moveDirection;
+    
     private void Awake()
     {
+        cameraComponent = GetComponent<Camera>();
         cameraTransform = GetComponent<Transform>();
+        rigidBody = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        if (PlayerController.Instance)
+        if (InputManager.Instance.gameControls.Camera.enabled)
         {
-            playerPosition = PlayerController.Instance.transform.position;
+            HandleMove();
+            cameraComponent.orthographicSize = 8f;
         }
-        cameraTransform.position = new Vector3(playerPosition.x, playerPosition.y, cameraTransform.position.z);        
+        else
+        {
+            if (PlayerController.Instance)
+            {
+                playerPosition = PlayerController.Instance.transform.position;
+            }
+            cameraComponent.orthographicSize = 5f;
+            cameraTransform.position = new Vector3(playerPosition.x, playerPosition.y, cameraTransform.position.z);
+        }
+    }
+    
+    private void HandleMove()
+    {
+        Vector2 inputValue = InputManager.Instance.GetCameraMovementVectorNormalized();
+        
+        moveDirection.x = inputValue.x;
+        moveDirection.y = inputValue.y;
+        
+        rigidBody.velocity = new Vector2(moveDirection.x * velocity, moveDirection.y * velocity);
     }
 }
