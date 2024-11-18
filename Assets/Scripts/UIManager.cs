@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Camera Components")] 
     [SerializeField] private GameObject cameraInterface;
+    [SerializeField] private Sprite cameraCorrectFrame;
+    [SerializeField] private Sprite cameraWrongFrame;
     
     [Header("Collectables Tab Component")]
     [SerializeField] private GameObject collectablesTab;
@@ -62,7 +64,12 @@ public class UIManager : MonoBehaviour
         if (pictureTaken)
         {
             cameraInterface.GetComponent<Animator>().enabled = false;
-            cameraInterface.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/UI/Camera ACERTO");
+            cameraInterface.GetComponent<Image>().sprite = cameraCorrectFrame;
+        }
+        else
+        {
+            cameraInterface.GetComponent<Animator>().enabled = false;
+            cameraInterface.GetComponent<Image>().sprite = cameraWrongFrame;
         }
     }
     

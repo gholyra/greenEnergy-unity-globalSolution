@@ -1,4 +1,6 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,15 +14,33 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void Start()
     {
         itemsCollected = 0;
     }
-
+    
     public void AddItemsCollected()
     {
         itemsCollected++;
+    }
+    
+    public void StartGame() 
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+    
+    public void QuitGame() 
+    {
+        #if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 }

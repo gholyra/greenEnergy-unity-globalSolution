@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     Debug.Log("O objeto não está totalmente enquadrado dentro da câmera :(");
+                    UIManager.Instance.SwitchCameraInterface(false);
                 }
             }
         }
