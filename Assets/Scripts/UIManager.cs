@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,8 +13,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite cameraWrongFrame;
     
     [Header("Collectables Tab Component")]
-    [SerializeField] private GameObject collectablesTab;
-    [SerializeField] private Animator collectablesTabAnimator;
+    [SerializeField] private GameObject locationsTab;
+    [SerializeField] private Animator locationsTabAnimator;
     
     [Header("Collectable Items")]
     [SerializeField] private GameObject[] collectableItems;
@@ -47,13 +48,13 @@ public class UIManager : MonoBehaviour
         if (state)
         {
             collectablesTabActive = true;
-            collectablesTabAnimator.SetBool("IsActive", true);
+            locationsTabAnimator.SetBool("IsActive", true);
             InputManager.Instance.DisableCharacterControls();
         }
         else
         {
             collectablesTabActive = false;
-            collectablesTabAnimator.SetBool("IsActive", false);
+            locationsTabAnimator.SetBool("IsActive", false);
             InputManager.Instance.EnableCharacterControls();
         }
     }
@@ -65,22 +66,31 @@ public class UIManager : MonoBehaviour
         {
             cameraInterface.GetComponent<Animator>().enabled = false;
             cameraInterface.GetComponent<Image>().sprite = cameraCorrectFrame;
+            StartCoroutine(RemoveCameraFrameState(3f));
         }
         else
         {
             cameraInterface.GetComponent<Animator>().enabled = false;
             cameraInterface.GetComponent<Image>().sprite = cameraWrongFrame;
+            StartCoroutine(RemoveCameraFrameState(3f));
         }
     }
+
+    private IEnumerator RemoveCameraFrameState(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        cameraInterface.GetComponent<Animator>().enabled = true;
+        cameraInterface.GetComponent<Image>().sprite = null;
+    }
     
-    public void AddCollectableToTab(GameObject collectable)
+    public void AddLocationToTab(GameObject energyLocation)
     {
         for (int i = 0; i < collectableItems.Length; i++)
         {
-            if (collectableItems[i].CompareTag(collectable.tag))
+            if (collectableItems[i].name == energyLocation.name)
             {
-                collectableItems[i].GetComponentInChildren<Image>().sprite = collectable.GetComponent<SpriteRenderer>().sprite;
-                collectableItems[i].GetComponentInChildren<TextMeshProUGUI>().text = collectable.name;
+                collectableItems[i].GetComponentInChildren<Image>().sprite = energyLocation.GetComponent<SpriteRenderer>().sprite;
+                collectableItems[i].GetComponentInChildren<TextMeshProUGUI>().text = energyLocation.name;
             }
         }
     }

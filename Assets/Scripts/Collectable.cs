@@ -8,13 +8,13 @@ public class Collectable : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Destroy(this.gameObject);
-            OnCollected();
+            // OnCollected();
         }
     }
 
-    public void OnCollected()
-    {
-        GameManager.Instance.AddItemsCollected();
-        UIManager.Instance.AddCollectableToTab(this.gameObject);
-    }
+    // public void OnCollected()
+    // {
+    //     GameManager.Instance.AddItemsCollected();
+    //     UIManager.Instance.AddLocationToTab(this.gameObject);
+    // }
 }

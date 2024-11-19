@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
                 {
                     Debug.Log("Foto Tirada!!");
                     UIManager.Instance.SwitchCameraInterface(true);
+                    EnergyLocationBehaviour.Instance.OnPictured();
                 }
                 else
                 {
