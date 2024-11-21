@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,6 +8,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float velocity = 3f;
 
     private Rigidbody2D rigidBody;
+    private SpriteRenderer spriteRenderer;
+    private Animator playerAnimator;
+    
     private Vector2 moveDirection;
     
     private void Awake()
@@ -16,44 +20,36 @@ public class PlayerController : MonoBehaviour
             Instance = this;
         }
         rigidBody = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        playerAnimator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (InputManager.Instance.gameControls.Player.enabled)
-            {
-                InputManager.Instance.DisableCharacterControls();
-                UIManager.Instance.SetCameraInterfaceState(true);
-                InputManager.Instance.EnableCameraControls();
-            }
-            else
-            {
-                InputManager.Instance.DisableCameraControls();
-                UIManager.Instance.SetCameraInterfaceState(false);
-                InputManager.Instance.EnableCharacterControls();
-            }
-        }
+        HandleCameraCall();
         if (Input.GetMouseButtonDown(0))
         {
-            if (InputManager.Instance.gameControls.Camera.enabled)
+            if (InputManager.Instance.gameControls.Camera.enabled && !UIManager.Instance.collectablesTabActive)
             {
-                if (EnergyLocationBehaviour.Instance.isInCameraView)
+                foreach (EnergyLocationBehaviour location in LocationsController.Instance.Locations)
                 {
-                    Debug.Log("Foto Tirada!!");
-                    UIManager.Instance.SwitchCameraInterface(true);
-                    EnergyLocationBehaviour.Instance.OnPictured();
-                }
-                else
-                {
-                    Debug.Log("O objeto não está totalmente enquadrado dentro da câmera :(");
-                    UIManager.Instance.SwitchCameraInterface(false);
+                    if (location.isInCameraView)
+                    {
+                        Debug.Log("Foto Tirada!!");
+                        UIManager.Instance.SwitchCameraInterface(true);
+                        EnergyLocationBehaviour.Instance.OnPictured();
+                    }
+                    else
+                    {
+                        Debug.Log("O objeto não está enquadrado dentro da câmera! :(");
+                        UIManager.Instance.SwitchCameraInterface(false);
+                    }
                 }
             }
         }
         HandleCollectablesTab();
         HandleWalk();
+        HandleAnimation();
     }
 
     #region Handlers
@@ -79,6 +75,46 @@ public class PlayerController : MonoBehaviour
             {
                 UIManager.Instance.SetCollectablesTabState(true);
             }
+        }
+    }
+
+    private void HandleCameraCall()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (InputManager.Instance.gameControls.Player.enabled)
+            {
+                InputManager.Instance.DisableCharacterControls();
+                UIManager.Instance.SetCameraInterfaceState(true);
+                InputManager.Instance.EnableCameraControls();
+            }
+            else
+            {
+                InputManager.Instance.DisableCameraControls();
+                UIManager.Instance.SetCameraInterfaceState(false);
+                InputManager.Instance.EnableCharacterControls();
+            }
+        }
+    }
+    
+    private void HandleAnimation()
+    {
+        if (moveDirection.x < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (moveDirection.x > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+
+        if (!playerAnimator.GetBool("IsRunning") && moveDirection != Vector2.zero)
+        {
+            playerAnimator.SetBool("IsRunning", true);
+        }
+        else if (playerAnimator.GetBool("IsRunning") && moveDirection == Vector2.zero)
+        {
+            playerAnimator.SetBool("IsRunning", false);
         }
     }
     #endregion

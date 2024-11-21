@@ -34,6 +34,7 @@ public class CameraBehaviour : MonoBehaviour
             cameraComponent.orthographicSize = 5f;
             cameraTransform.position = new Vector3(playerPosition.x, playerPosition.y, cameraTransform.position.z);
         }
+        
     }
     
     private void HandleMove()

@@ -7,8 +7,10 @@ public class EnergyLocationBehaviour : MonoBehaviour
     [SerializeField] private Camera camera;
 
     private SpriteRenderer targetRenderer;
+    private Collider2D collider;
 
     public bool isInCameraView { get; private set; }
+    public bool isRegistered { get; private set; }
 
     private void Awake()
     {
@@ -17,21 +19,22 @@ public class EnergyLocationBehaviour : MonoBehaviour
             Instance = this;
         }
         targetRenderer = GetComponent<SpriteRenderer>();
+        collider = GetComponent<Collider2D>();
     }
 
     private void Update()
     {
         Bounds objectBounds = targetRenderer.bounds;
-
+        
         // Obtém os 4 pontos de canto do bounding box 2D
         Vector3[] corners = new Vector3[4];
         CalculateCorners(objectBounds, corners);
-
+        
         // Converte os pontos para coordenadas de viewport
         for (int i = 0; i < 4; i++)
         {
             Vector3 viewportPoint = camera.WorldToViewportPoint(corners[i]);
-
+        
             // Verifica se o ponto está fora do viewport
             if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1)
             {
@@ -46,6 +49,8 @@ public class EnergyLocationBehaviour : MonoBehaviour
     {
         corners[0] = new Vector3(bounds.min.x, bounds.min.y, bounds.min.z); // Frente inferior esquerda
         corners[1] = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z); // Frente inferior direita
+        corners[2] = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z); // Frente inferior direita
+        corners[3] = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z); // Frente inferior direita
         // ... e assim por diante para os outros 6 cantos
     }
 
@@ -53,5 +58,6 @@ public class EnergyLocationBehaviour : MonoBehaviour
     {
         GameManager.Instance.AddItemsCollected();
         UIManager.Instance.AddLocationToTab(this.gameObject);
+        isRegistered = true;
     }
 }

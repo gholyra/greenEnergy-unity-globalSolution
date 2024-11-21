@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -17,7 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Animator locationsTabAnimator;
     
     [Header("Collectable Items")]
-    [SerializeField] private GameObject[] collectableItems;
+    [SerializeField] private GameObject[] locationsIcons;
 
     public bool collectablesTabActive { get; private set; }
 
@@ -85,12 +86,12 @@ public class UIManager : MonoBehaviour
     
     public void AddLocationToTab(GameObject energyLocation)
     {
-        for (int i = 0; i < collectableItems.Length; i++)
+        for (int i = 0; i < locationsIcons.Length; i++)
         {
-            if (collectableItems[i].name == energyLocation.name)
+            if (locationsIcons[i].name == energyLocation.name)
             {
-                collectableItems[i].GetComponentInChildren<Image>().sprite = energyLocation.GetComponent<SpriteRenderer>().sprite;
-                collectableItems[i].GetComponentInChildren<TextMeshProUGUI>().text = energyLocation.name;
+                locationsIcons[i].GetComponentInChildren<Image>().sprite = energyLocation.GetComponent<SpriteRenderer>().sprite;
+                locationsIcons[i].GetComponentInChildren<TextMeshProUGUI>().text = energyLocation.name;
             }
         }
     }
