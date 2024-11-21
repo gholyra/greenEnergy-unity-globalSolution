@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -26,29 +25,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        HandleCameraCall();
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (InputManager.Instance.gameControls.Camera.enabled && !UIManager.Instance.collectablesTabActive)
-            {
-                foreach (EnergyLocationBehaviour location in LocationsController.Instance.Locations)
-                {
-                    if (location.isInCameraView)
-                    {
-                        Debug.Log("Foto Tirada!!");
-                        UIManager.Instance.SwitchCameraInterface(true);
-                        EnergyLocationBehaviour.Instance.OnPictured();
-                    }
-                    else
-                    {
-                        Debug.Log("O objeto não está enquadrado dentro da câmera! :(");
-                        UIManager.Instance.SwitchCameraInterface(false);
-                    }
-                }
-            }
-        }
-        HandleCollectablesTab();
         HandleWalk();
+        HandleCameraCall();
+        HandleTakePicture();
+        HandleCollectablesTab();
         HandleAnimation();
     }
 
@@ -59,28 +39,20 @@ public class PlayerController : MonoBehaviour
         
         moveDirection.x = inputValue.x;
         moveDirection.y = inputValue.y;
-        
-        rigidBody.velocity = new Vector2(moveDirection.x * velocity, moveDirection.y * velocity);
-    }
 
-    private void HandleCollectablesTab()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (!UIManager.Instance.collectablesTabActive && !InputManager.Instance.gameControls.Camera.enabled)
         {
-            if (UIManager.Instance.GetCollectablesTabState())
-            {
-                UIManager.Instance.SetCollectablesTabState(false);
-            }
-            else
-            {
-                UIManager.Instance.SetCollectablesTabState(true);
-            }
+            rigidBody.velocity = new Vector2(moveDirection.x * velocity, moveDirection.y * velocity);
+        }
+        else
+        {
+            rigidBody.velocity = Vector2.zero;
         }
     }
 
     private void HandleCameraCall()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !UIManager.Instance.collectablesTabActive)
         {
             if (InputManager.Instance.gameControls.Player.enabled)
             {
@@ -93,6 +65,50 @@ public class PlayerController : MonoBehaviour
                 InputManager.Instance.DisableCameraControls();
                 UIManager.Instance.SetCameraInterfaceState(false);
                 InputManager.Instance.EnableCharacterControls();
+            }
+        }
+    }
+
+    private void HandleTakePicture()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (InputManager.Instance.gameControls.Camera.enabled && !UIManager.Instance.collectablesTabActive)
+            {
+                foreach (EnergyLocationBehaviour location in LocationsController.Instance.Locations)
+                {
+                    if (location.isInCameraView && !location.isRegistered)
+                    {
+                        Debug.Log("Foto Tirada!!");
+                        UIManager.Instance.SwitchCameraInterface(true);
+                        location.OnPictured();
+                    }
+                    else if (location.isInCameraView && location.isRegistered)
+                    {
+                        Debug.Log("O objeto já foi registrado!");
+                        UIManager.Instance.SwitchCameraInterface(false);
+                    }
+                    else
+                    {
+                        Debug.Log("O objeto não está enquadrado dentro da câmera! :(");
+                        UIManager.Instance.SwitchCameraInterface(false);
+                    }
+                }
+            }
+        }
+    }
+    
+    private void HandleCollectablesTab()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (UIManager.Instance.collectablesTabActive)
+            {
+                UIManager.Instance.SetCollectablesTabState(false);
+            }
+            else
+            {
+                UIManager.Instance.SetCollectablesTabState(true);
             }
         }
     }

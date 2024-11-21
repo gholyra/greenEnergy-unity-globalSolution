@@ -5,7 +5,7 @@ public class LocationsController : MonoBehaviour
 {
     public static LocationsController Instance;
 
-    public List<EnergyLocationBehaviour> Locations { get; set; }
+    public List<EnergyLocationBehaviour> Locations { get; private set; }
     
     private void Awake()
     {

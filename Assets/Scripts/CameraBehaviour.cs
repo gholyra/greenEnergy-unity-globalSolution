@@ -43,7 +43,14 @@ public class CameraBehaviour : MonoBehaviour
         
         moveDirection.x = inputValue.x;
         moveDirection.y = inputValue.y;
-        
-        rigidBody.velocity = new Vector2(moveDirection.x * velocity, moveDirection.y * velocity);
+
+        if (!UIManager.Instance.collectablesTabActive)
+        {
+            rigidBody.velocity = new Vector2(moveDirection.x * velocity, moveDirection.y * velocity);
+        }
+        else
+        {
+            rigidBody.velocity = Vector2.zero;
+        }
     }
 }

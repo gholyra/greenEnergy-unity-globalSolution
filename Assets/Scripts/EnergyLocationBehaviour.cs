@@ -49,8 +49,8 @@ public class EnergyLocationBehaviour : MonoBehaviour
     {
         corners[0] = new Vector3(bounds.min.x, bounds.min.y, bounds.min.z); // Frente inferior esquerda
         corners[1] = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z); // Frente inferior direita
-        corners[2] = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z); // Frente inferior direita
-        corners[3] = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z); // Frente inferior direita
+        corners[2] = new Vector3(bounds.min.x, bounds.min.y, bounds.min.z); // Frente inferior direita
+        corners[3] = new Vector3(bounds.min.x, bounds.max.y, bounds.min.z); // Frente inferior direita
         // ... e assim por diante para os outros 6 cantos
     }
 

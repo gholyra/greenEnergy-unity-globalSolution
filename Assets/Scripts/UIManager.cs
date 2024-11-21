@@ -1,7 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -31,13 +30,6 @@ public class UIManager : MonoBehaviour
         SetCameraInterfaceState(false);
     }
 
-    #region Getters
-    public bool GetCollectablesTabState()
-    {
-        return collectablesTabActive;
-    }
-    #endregion
-    
     #region Setters
     public void SetCameraInterfaceState(bool isActive) 
     {
