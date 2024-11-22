@@ -82,22 +82,10 @@ public class PlayerController : MonoBehaviour
                         Debug.Log("Foto Tirada!!");
                         UIManager.Instance.SwitchCameraInterface(true);
                         location.OnPictured();
+                        break;
                     }
-                    else if (location.isInCameraView && location.isRegistered)
-                    {
-                        Debug.Log("O objeto já foi registrado!");
-                        UIManager.Instance.SwitchCameraInterface(false);
-                    }
-                    else if (!location.isInCameraView && location.isRegistered)
-                    {
-                        Debug.Log("O objeto não está enquadrado dentro da câmera mas já foi registrado! :(");
-                        UIManager.Instance.SwitchCameraInterface(false);
-                    }
-                    else if (!location.isInCameraView && !location.isRegistered)
-                    {
-                        Debug.Log("O objeto não está enquadrado dentro da câmera e ainda não foi registrado! :(");
-                        UIManager.Instance.SwitchCameraInterface(false);
-                    }
+                    Debug.Log("O objeto já foi registrado!");
+                    UIManager.Instance.SwitchCameraInterface(false);
                 }
             }
         }

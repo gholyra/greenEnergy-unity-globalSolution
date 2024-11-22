@@ -23,7 +23,7 @@ public class CameraBehaviour : MonoBehaviour
         if (InputManager.Instance.gameControls.Camera.enabled)
         {
             HandleMove();
-            cameraComponent.orthographicSize = 8f;
+            cameraComponent.orthographicSize = 8.5f;
         }
         else
         {
