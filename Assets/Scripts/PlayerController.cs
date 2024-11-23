@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        HandlePauseMenuCall();
         HandleWalk();
         HandleCameraCall();
         HandleTakePicture();
@@ -33,6 +34,23 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Handlers
+    private void HandlePauseMenuCall()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !GameManager.Instance.isInTutorial)
+        {
+            if (!UIManager.Instance.GetPauseMenuState() && Time.timeScale != 0)
+            {
+                UIManager.Instance.SetPauseMenuState(true);
+                GameManager.Instance.PauseGame(true);
+            }
+            else
+            {
+                UIManager.Instance.SetPauseMenuState(false);
+                GameManager.Instance.PauseGame(false);
+            }
+        }
+    }
+    
     private void HandleWalk()
     {
         Vector2 inputValue = InputManager.Instance.GetCharacterMovementVectorNormalized();

@@ -13,8 +13,8 @@ public class InputManager : MonoBehaviour
             Instance = this;
         }
         gameControls = new GameControls();
-        gameControls.Player.Enable();
-        gameControls.Camera.Disable();
+        EnableCharacterControls();
+        DisableCameraControls();
     }
 
     public Vector2 GetCharacterMovementVectorNormalized()

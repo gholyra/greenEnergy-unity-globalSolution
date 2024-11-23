@@ -56,7 +56,6 @@ public class EnergyLocationBehaviour : MonoBehaviour
 
     public void OnPictured()
     {
-        GameManager.Instance.AddItemsCollected();
         UIManager.Instance.AddLocationToTab(this.gameObject);
         isRegistered = true;
     }
